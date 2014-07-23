@@ -30,25 +30,24 @@
 
 	<script>
 
-
 	var width = 700;
 	var height = 500;
 	
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
  
 	var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+    	.rangeRoundBands([0, width], .1);
 
 	var y = d3.scale.linear()
-    .range([height, 0]); 
+    	.range([height, 0]); 
 
-		var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+	var svg = d3.select("body").append("svg")
+    	.attr("width", width + margin.left + margin.right)
+    	.attr("height", height + margin.top + margin.bottom);
   	
-    
+    d3.csv("DOC_Visitor_Arrests.csv",
 
-    	d3.csv("DOC_Visitor_Arrests.csv", function(data) {
+    	function(data) {
 			return { 
 	    		year: new Date(data.Year), 
 	    		arrests: +data.Arrests  
@@ -58,19 +57,13 @@
     	function(error, data) {
   			console.log(data);		
   		
-
-   	svg.selectAll(".bar")
-   	.data(data)
-   	.enter().append("rect")
-   	.attr("class", "bar")
-   	.attr("width", 100)
-   	.attr("height", 30); });
-  
-
-
-
-
-
+		   	svg.selectAll(".bar")
+		   	.data(data)
+		   	.enter().append("rect")
+		   	.attr("class", "bar")
+		   	.attr("width", 100)
+		   	.attr("height", 30); 
+   		});
 
 	</script>
 
