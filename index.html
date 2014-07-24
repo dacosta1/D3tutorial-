@@ -15,6 +15,22 @@
 			padding: 5px; 
 		}
 
+		.bar:hover{
+			fill:brown;
+		}
+
+		
+		.tick {
+   		 fill:none;
+   		 stroke:black;
+		}
+
+		svg {
+			margin:100px;
+		}
+
+		
+
 		</style>
 
 
@@ -24,19 +40,17 @@
 	  
 	
 	<body>
-		<div class="chart">
-
-		</div>
+		
 
 	<script>
 
-	var width = 700;
+	var width = 960;
 	var height = 500;
 	
-	var margin = {top: 20, right: 20, bottom: 30, left: 40};
+	var margin = {top: 60, right: 60, bottom: 60, left: 60};
  
-	var x = d3.scale.ordinal()
-    	.rangeRoundBands([0, width], .1);
+	var x = d3.scale.linear()
+    	.range([0, width], 1);
 
 	var y = d3.scale.linear()
     	.range([height, 0]); 
@@ -55,13 +69,28 @@
     	.attr("height", height + margin.top + margin.bottom)
     	.append("g")
     	.attr("tranform", "translate(" + margin.left + "," + margin.top + ")" );
+    	
+
+    	svg.append("g")
+      .attr("class", "xAxis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+      svg.append("g")
+      .attr("class", "yAxis")
+      .call(yAxis)
+   	  .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 10)
+      .style("text-anchor", "end")
+      .text("arrests");
   	
-    d3.csv("DOC_Visitor_Arrests.csv",
+    d3.csv("DOC_Visitor_Arrests2.csv",
 
     	function(data) {
 			return { 
-	    		year: new Date(data.Year), 
-	    		arrests: +data.Arrests  
+	    		year: +data.Year, 
+	    		arrests: +data.Arrests 
 	    	};
     	},
 
@@ -72,11 +101,12 @@
 		   	.data(data)
 		   	.enter().append("rect")
 		   	.attr("class", "bar")
-		   	.attr("x", function(line) { return x(line.year); })
-		   	.attr("width", x.rangeBand())
+		   	.attr("x", function(line) { return line.year; })
+		   	.attr("width", 40)
 		   	.attr("y", function(line) { return y(line.arrests)})
 		   	.attr("height", function(line) { return height - y(line.arrests); }); 
    		});
+
 
 	</script>
 
